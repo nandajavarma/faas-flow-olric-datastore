@@ -1,8 +1,8 @@
 package OlricDataStore
 
 import (
+	"fmt"
 	"log"
-	"reflect"
 	"time"
 
 	faasflow "github.com/faasflow/sdk"
@@ -14,6 +14,8 @@ import (
 type OlricDataStore struct {
 	namespace string
 	olricClient *client.Client
+	keyName string
+	dataMap *client.DMap
 }
 
 func Init() (faasflow.DataStore, error) {
@@ -37,9 +39,20 @@ func Init() (faasflow.DataStore, error) {
 }
 
 func (olricstore *OlricDataStore) Configure(flowName string, requestId string) {
+	keyName := fmt.Sprintf("faasflow-%s-%s", flowName, requestId)
+	olricstore.keyName = keyName
+
 }
 
 func (olricstore *OlricDataStore) Init() error {
+	if olricstore.olricClient == nil {
+		return fmt.Errorf("olric client not initialized")
+	}
+
+	dm := olricstore.olricClient.NewDMap(olricstore.keyName)
+
+	olricstore.dataMap = dm
+
 	return nil
 }
 
