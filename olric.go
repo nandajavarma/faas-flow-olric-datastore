@@ -1,6 +1,7 @@
 package OlricDataStore
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"time"
@@ -57,14 +58,39 @@ func (olricstore *OlricDataStore) Init() error {
 }
 
 func (olricstore *OlricDataStore) Set(key string, value []byte) error {
+	if olricstore.dataMap == nil {
+		return fmt.Errorf("olric data map not defined")
+	}
+
+	err := olricstore.dataMap.Put(key, value)
+	if err != nil {
+		return fmt.Errorf("error writing: %s, bucket: %s, error: %s", key, olricstore.keyName, err.Error())
+	}
 	return nil
+
 }
 
 func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
-	return nil, nil
+	if olricstore.dataMap == nil {
+		return nil, fmt.Errorf("olric data map not defined")
+	}
+	data, err := olricstore.dataMap.Get(key)
+	if err != nil {
+		log.Fatalf("Failed to call Get: %v", err)
+	}
+	b, err := json.Marshal(&data)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	return b, nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
+	err := olricstore.dataMap.Delete(key)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+
 	return nil
 }
 
