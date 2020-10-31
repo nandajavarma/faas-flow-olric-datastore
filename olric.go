@@ -20,9 +20,10 @@ type OlricDataStore struct {
 }
 
 func Init() (faasflow.DataStore, error) {
+	log.Print("I am inside the Init")
 	olricstore := &OlricDataStore{}
 	var clientConfig = &client.Config{
-		Addrs:       []string{"127.0.0.1:3320"},
+		Addrs:       []string{"olricd.default.svc.cluster.local:3320"},
 		Serializer:  serializer.NewMsgpackSerializer(),
 		DialTimeout: 10 * time.Second,
 		KeepAlive:   10 * time.Second,
