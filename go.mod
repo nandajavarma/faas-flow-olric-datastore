@@ -1,4 +1,4 @@
-module github.com/nandajavarma/faas-flow-pocket-datastore
+module github.com/nandajavarma/faas-flow-olric-datastore
 
 go 1.15
 
