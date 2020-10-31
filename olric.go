@@ -80,7 +80,7 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	}
 	b, err := json.Marshal(&data)
 	if err != nil {
-		fmt.Println("error:", err)
+		fmt.Println("error during marshal get:", err)
 	}
 	return b, nil
 }
@@ -88,12 +88,19 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 func (olricstore *OlricDataStore) Del(key string) error {
 	err := olricstore.dataMap.Delete(key)
 	if err != nil {
-		fmt.Println("error:", err)
+		fmt.Println("error during deleting key:", err)
 	}
 
 	return nil
 }
 
 func (olricstore *OlricDataStore) Cleanup() error {
+	err := olricstore.dataMap.Destroy()
+	if err != nil {
+		fmt.Println("error during cleanup:", err)
+	}
+
 	return nil
+
+
 }
