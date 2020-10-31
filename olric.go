@@ -13,7 +13,7 @@ import (
 
 type OlricDataStore struct {
 	namespace string
-	// olricClient *client
+	olricClient *client.Client
 }
 
 func Init() (faasflow.DataStore, error) {
@@ -32,6 +32,7 @@ func Init() (faasflow.DataStore, error) {
 	}
 	log.Fatalf("Success: %s", reflect.TypeOf(c))
 	defer c.Close()
+	olricstore.olricClient = c
 	return olricstore, nil
 
 }
