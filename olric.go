@@ -22,7 +22,7 @@ type OlricDataStore struct {
 func Init() (faasflow.DataStore, error) {
 	olricstore := &OlricDataStore{}
 	var clientConfig = &client.Config{
-		Addrs:       []string{"localhost:3320"},
+		Addrs:       []string{"127.0.0.1:3320"},
 		Serializer:  serializer.NewMsgpackSerializer(),
 		DialTimeout: 10 * time.Second,
 		KeepAlive:   10 * time.Second,
