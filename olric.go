@@ -45,11 +45,11 @@ func (olricstore *OlricDataStore) Configure(flowName string, requestId string) {
 	log.Print("I am inside the configure datamap name: ", keyName)
 	olricstore.keyName = keyName
 
-	dm := olricstore.olricClient.NewDMap(olricstore.keyName)
-	log.Print("Created dmap inside configure with name: ", olricstore.keyName)
-	olricstore.dataMap = dm
+	// dm := olricstore.olricClient.NewDMap(olricstore.keyName)
+	// log.Print("Created dmap inside configure with name: ", olricstore.keyName)
+	// olricstore.dataMap = dm
 
-	log.Print("Created dmap")
+	// log.Print("Created dmap")
 
 }
 
