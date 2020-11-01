@@ -80,8 +80,11 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 
 	dkey := fmt.Sprintf("%v", sec["key"].(interface{}))
 	dvalue := fmt.Sprintf("%v", sec["value"].(interface{}))
-	stringValue, _ := base64.StdEncoding.DecodeString(dvalue)
-	err := olricstore.dataMap.Put(dkey, fmt.Sprintf("{'key': %s, 'value': %s}", dkey, stringValue))
+	// stringValue, _ := base64.StdEncoding.DecodeString(dvalue)
+	var m map[string]string
+	m["key"] = key
+	m["value"] =  dvalue
+	err := olricstore.dataMap.Put(dkey, m)
 	log.Print("I am done putting")
 	if err != nil {
 		log.Print("oops error ", err.Error())
@@ -117,7 +120,7 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	// ret, error := json.Marshal(&data)
 	// reee, _ := ioutil.ReadAll(ret)
 	// log.Print(ret)
-	// log.Print(reee)
+	log.Print(byteKey)
 	// if error != nil {
 	// 	return nil, error
 	// }
