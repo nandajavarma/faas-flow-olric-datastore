@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"encoding/base64"
 	"reflect"
-	"io/ioutil"
 
 	faasflow "github.com/faasflow/sdk"
 	"github.com/buraksezer/olric/client"
