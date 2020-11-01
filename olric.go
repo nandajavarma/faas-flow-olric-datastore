@@ -46,8 +46,9 @@ func (olricstore *OlricDataStore) Configure(flowName string, requestId string) {
 	olricstore.keyName = keyName
 
 	dm := olricstore.olricClient.NewDMap(olricstore.keyName)
-
+	log.Print("Created dmap inside configure with name: ", orlicstore.keyName)
 	olricstore.dataMap = dm
+
 	log.Print("Created dmap")
 
 }
@@ -57,8 +58,7 @@ func (olricstore *OlricDataStore) Init() error {
 		return fmt.Errorf("olric client not initialized")
 	}
 
-	dm := olricstore.olricClient.NewDMap(olricstore.keyName)
-
+	dm  := olricstore.olricClient.NewDMap(olricstore.keyName)
 	olricstore.dataMap = dm
 
 	return nil
@@ -67,17 +67,21 @@ func (olricstore *OlricDataStore) Init() error {
 func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 	log.Print("I am inside the set keyname: ", key)
 	log.Print("I am inside the set valuename: ", value)
-	if olricstore.dataMap == nil {
+	// if olricstore.dataMap == nil {
 		log.Print("there is no dataMap, creating...")
-		dm := olricstore.olricClient.NewDMap(olricstore.keyName)
+		dm  := olricstore.olricClient.NewDMap("testing")
+			log.Print("created dmap testin inside Set")
 		olricstore.dataMap = dm
-	}
+	// }
 
+	log.Print("I am about to put")
 	err := olricstore.dataMap.Put(key, 12)
-	log.Print("I am putting 12 in : %s", value)
+	log.Print("I am done putting")
 	if err != nil {
+		log.Print("oops error ", err.Error())
 		return fmt.Errorf("error writing: %s, bucket: %s, error: %s", key, olricstore.keyName, err.Error())
 	}
+	log.Print("I am putting 12 in : %s", value)
 	return nil
 
 }
