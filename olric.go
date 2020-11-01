@@ -114,6 +114,7 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	// log.Print(byteKey)
 	// return byteKey, nil
 	ret, error := json.Marshal(data)
+	log.Print(ret)
 	if error != nil {
 		return nil, error
 	}
