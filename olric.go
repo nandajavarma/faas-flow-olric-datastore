@@ -6,6 +6,7 @@ import (
 	"time"
 	"encoding/json"
 	"encoding/base64"
+	"reflect"
 
 	faasflow "github.com/faasflow/sdk"
 	"github.com/buraksezer/olric/client"
@@ -96,6 +97,8 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	}
 	data, err := olricstore.dataMap.Get(key)
 	log.Print("GOT   I am getting key value in : %s", data)
+	log.Print(reflect.TypeOf(data))
+
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
 	}
