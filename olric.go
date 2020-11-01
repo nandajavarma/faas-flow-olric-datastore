@@ -68,7 +68,8 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 		return fmt.Errorf("olric data map not defined")
 	}
 
-	err := olricstore.dataMap.Put(key, value)
+	err := olricstore.dataMap.Put(key, 12)
+	log.Print("I am putting 12 in : %s", value)
 	if err != nil {
 		return fmt.Errorf("error writing: %s, bucket: %s, error: %s", key, olricstore.keyName, err.Error())
 	}
