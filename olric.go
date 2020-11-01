@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"encoding/json"
 
 	faasflow "github.com/faasflow/sdk"
 	"github.com/buraksezer/olric/client"
@@ -35,12 +36,6 @@ func Init() (faasflow.DataStore, error) {
 	}
 	olricstore.olricClient = c
 
-	dm := c.NewDMap("foobar")
-	error := dm.Put("key", "value")
-	if error != nil {
-		log.Fatalf("tried putting stuff got error: %s", error)
-	}
-	log.Print("I am done with creating the stuff")
 	return olricstore, nil
 
 }
@@ -72,20 +67,19 @@ func (olricstore *OlricDataStore) Init() error {
 func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 	log.Print("I am inside the set keyname: ", key)
 	log.Print("I am inside the set valuename: ", value)
-	// if olricstore.dataMap == nil {
+	if olricstore.dataMap == nil {
 		log.Print("there is no dataMap, creating...")
-		dm  := olricstore.olricClient.NewDMap("testing")
+		dm  := olricstore.olricClient.NewDMap(olricstore.keyName)
 		log.Print("created dmap testin inside Set")
 		olricstore.dataMap = dm
-	// }
+	}
 
-	log.Print("I am about to put")
-	err := dm.Put("testing", "testing")
+	err := olricstore.dataMap.Put(key, value)
 	log.Print("I am done putting")
 	if err != nil {
 		log.Print("oops error ", err.Error())
 	}
-	log.Print("I am putting 12 in : %s", value)
+	log.Print("I am putting key value in : %s", value)
 	return nil
 
 }
@@ -94,15 +88,15 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	if olricstore.dataMap == nil {
 		return nil, fmt.Errorf("olric data map not defined")
 	}
-	// data, err := olricstore.dataMap.Get(key)
-	// if err != nil {
-	// 	log.Fatalf("Failed to call Get: %v", err)
-	// }
-	// b, err := json.Marshal(&data)
-	// if err != nil {
-	// 	fmt.Println("error during marshal get:", err)
-	// }
-	return nil, nil
+	data, err := olricstore.dataMap.Get(key)
+	if err != nil {
+		log.Fatalf("Failed to call Get: %v", err)
+	}
+	b, err := json.Marshal(&data)
+	if err != nil {
+		fmt.Println("error during marshal get:", err)
+	}
+	return b, nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
