@@ -62,6 +62,8 @@ func (olricstore *OlricDataStore) Init() error {
 }
 
 func (olricstore *OlricDataStore) Set(key string, value []byte) error {
+	log.Print("I am inside the set keyname: %s", key)
+	log.Print("I am inside the set valuename: %s", value)
 	if olricstore.dataMap == nil {
 		return fmt.Errorf("olric data map not defined")
 	}
