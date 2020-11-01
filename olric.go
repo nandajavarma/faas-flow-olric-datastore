@@ -69,17 +69,16 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 	// if olricstore.dataMap == nil {
 		log.Print("there is no dataMap, creating...")
 		dm  := olricstore.olricClient.NewDMap("testing")
-			log.Print("created dmap testin inside Set")
+		log.Print("created dmap testin inside Set")
 		olricstore.dataMap = dm
 	// }
 
 	log.Print("I am about to put")
-	// err := olricstore.dataMap.Put(key, "12")
-	// log.Print("I am done putting")
-	// if err != nil {
-	// 	log.Print("oops error ", err.Error())
-	// 	return fmt.Errorf("error writing: %s, bucket: %s, error: %s", key, olricstore.keyName, err.Error())
-	// }
+	err := dm.Put("testing", "testing")
+	log.Print("I am done putting")
+	if err != nil {
+		log.Print("oops error ", err.Error())
+	}
 	log.Print("I am putting 12 in : %s", value)
 	return nil
 
