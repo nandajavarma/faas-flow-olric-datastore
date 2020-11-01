@@ -42,7 +42,7 @@ func Init() (faasflow.DataStore, error) {
 
 func (olricstore *OlricDataStore) Configure(flowName string, requestId string) {
 	keyName := fmt.Sprintf("faasflow-%s-%s", flowName, requestId)
-	log.Print("I am inside the configure keyname: %s", keyName)
+	log.Print("I am inside the configure datamap name: ", keyName)
 	olricstore.keyName = keyName
 
 	dm := olricstore.olricClient.NewDMap(olricstore.keyName)
@@ -57,15 +57,20 @@ func (olricstore *OlricDataStore) Init() error {
 		return fmt.Errorf("olric client not initialized")
 	}
 
+	dm := olricstore.olricClient.NewDMap(olricstore.keyName)
+
+	olricstore.dataMap = dm
 
 	return nil
 }
 
 func (olricstore *OlricDataStore) Set(key string, value []byte) error {
-	log.Print("I am inside the set keyname: %s", key)
-	log.Print("I am inside the set valuename: %s", value)
+	log.Print("I am inside the set keyname: ", key)
+	log.Print("I am inside the set valuename: ", value)
 	if olricstore.dataMap == nil {
-		return fmt.Errorf("olric data map not defined")
+		log.Print("there is no dataMap, creating...")
+		dm := olricstore.olricClient.NewDMap(olricstore.keyName)
+		olricstore.dataMap = dm
 	}
 
 	err := olricstore.dataMap.Put(key, 12)
