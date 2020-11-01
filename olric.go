@@ -81,7 +81,7 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 	dkey := fmt.Sprintf("%v", sec["key"].(interface{}))
 	dvalue := fmt.Sprintf("%v", sec["value"].(interface{}))
 	stringValue, _ := base64.StdEncoding.DecodeString(dvalue)
-	err := olricstore.dataMap.Put(dkey, stringValue)
+	err := olricstore.dataMap.Put(dkey, fmt.Sprintf("{'key': %s, 'value': %s}", dkey, stringValue))
 	log.Print("I am done putting")
 	if err != nil {
 		log.Print("oops error ", err.Error())
