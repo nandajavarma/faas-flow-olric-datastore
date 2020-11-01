@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"encoding/json"
+	"encoding/gob"
+	"bytes"
 
 	faasflow "github.com/faasflow/sdk"
 	"github.com/buraksezer/olric/client"
@@ -93,11 +94,14 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
 	}
-	b, err := json.Marshal(&data)
-	if err != nil {
-		fmt.Println("error during marshal get:", err)
+	// b, err := json.Marshal(&data)
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	error := enc.Encode(data)
+	if error != nil {
+		return nil, error
 	}
-	return b, nil
+	return buf.Bytes(), nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
