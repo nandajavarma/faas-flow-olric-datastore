@@ -24,8 +24,8 @@ func Init() (faasflow.DataStore, error) {
 	var clientConfig = &client.Config{
 		Addrs:       []string{"olricd.default:3320"},
 		Serializer:  serializer.NewMsgpackSerializer(),
-		DialTimeout: 10 * time.Second,
-		KeepAlive:   10 * time.Second,
+		DialTimeout: 10000 * time.Second,
+		KeepAlive:   10000 * time.Second,
 		MaxConn:     100,
 	}
 	// OlricDataStore.olricClient = client
@@ -34,6 +34,12 @@ func Init() (faasflow.DataStore, error) {
 		log.Fatalf("Olric client returned error: %s", err)
 	}
 	olricstore.olricClient = c
+
+	dm := c.NewDMap("foobar")
+	error := dm.Put("key", "value")
+	if error != nil {
+		log.Fatalf("tried putting stuff got error: %s", error)
+	}
 	log.Print("I am done with creating the stuff")
 	return olricstore, nil
 
