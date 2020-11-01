@@ -23,7 +23,7 @@ func Init() (faasflow.DataStore, error) {
 	log.Print("I am inside the Init")
 	olricstore := &OlricDataStore{}
 	var clientConfig = &client.Config{
-		Addrs:       []string{"olricd.default.svc.cluster.local:3320"},
+		Addrs:       []string{"olricd.default:3320"},
 		Serializer:  serializer.NewMsgpackSerializer(),
 		DialTimeout: 10 * time.Second,
 		KeepAlive:   10 * time.Second,
@@ -42,6 +42,7 @@ func Init() (faasflow.DataStore, error) {
 
 func (olricstore *OlricDataStore) Configure(flowName string, requestId string) {
 	keyName := fmt.Sprintf("faasflow-%s-%s", flowName, requestId)
+	log.Print("I am inside the configure keyname: %s", keyName)
 	olricstore.keyName = keyName
 
 }
