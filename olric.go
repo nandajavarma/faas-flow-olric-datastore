@@ -75,12 +75,12 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 	// }
 
 	log.Print("I am about to put")
-	err := olricstore.dataMap.Put(key, "12")
-	log.Print("I am done putting")
-	if err != nil {
-		log.Print("oops error ", err.Error())
-		return fmt.Errorf("error writing: %s, bucket: %s, error: %s", key, olricstore.keyName, err.Error())
-	}
+	// err := olricstore.dataMap.Put(key, "12")
+	// log.Print("I am done putting")
+	// if err != nil {
+	// 	log.Print("oops error ", err.Error())
+	// 	return fmt.Errorf("error writing: %s, bucket: %s, error: %s", key, olricstore.keyName, err.Error())
+	// }
 	log.Print("I am putting 12 in : %s", value)
 	return nil
 
@@ -90,15 +90,15 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	if olricstore.dataMap == nil {
 		return nil, fmt.Errorf("olric data map not defined")
 	}
-	data, err := olricstore.dataMap.Get(key)
-	if err != nil {
-		log.Fatalf("Failed to call Get: %v", err)
-	}
-	b, err := json.Marshal(&data)
-	if err != nil {
-		fmt.Println("error during marshal get:", err)
-	}
-	return b, nil
+	// data, err := olricstore.dataMap.Get(key)
+	// if err != nil {
+	// 	log.Fatalf("Failed to call Get: %v", err)
+	// }
+	// b, err := json.Marshal(&data)
+	// if err != nil {
+	// 	fmt.Println("error during marshal get:", err)
+	// }
+	return nil, nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
