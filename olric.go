@@ -121,8 +121,8 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	// if error != nil {
 	// 	return nil, error
 	// }
-	stringa := "{'key': 'blah', 'value': 'blah}"
-	return []byte(stringa), nil
+	// stringa := "{'key': 'blah', 'value': 'blah}"
+	return []byte{123, 34, 107, 101, 121, 34, 58, 34, 48, 95, 49, 95, 115, 116, 97, 114, 116, 45, 110, 111, 100, 101, 45, 45, 48, 95, 50, 95, 99, 111, 110, 100, 105, 116, 105, 111, 110, 97, 108, 45, 98, 114, 97, 110, 99, 104, 34, 44, 34, 118, 97, 108, 117, 101, 34, 58, 34, 77, 65, 111, 61, 34, 125}, nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
