@@ -89,6 +89,7 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 		return nil, fmt.Errorf("olric data map not defined")
 	}
 	data, err := olricstore.dataMap.Get(key)
+	log.Print("GOT   I am getting key value in : %s", data)
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
 	}
