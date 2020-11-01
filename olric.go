@@ -75,7 +75,7 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 	// }
 
 	log.Print("I am about to put")
-	err := olricstore.dataMap.Put(key, 12)
+	err := olricstore.dataMap.Put(key, "12")
 	log.Print("I am done putting")
 	if err != nil {
 		log.Print("oops error ", err.Error())
