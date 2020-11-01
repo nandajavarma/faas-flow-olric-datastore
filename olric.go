@@ -34,8 +34,8 @@ func Init() (faasflow.DataStore, error) {
 	if err != nil {
 		log.Fatalf("Olric client returned error: %s", err)
 	}
-	defer c.Close()
 	olricstore.olricClient = c
+	log.Print("I am done with creating the stuff")
 	return olricstore, nil
 
 }
