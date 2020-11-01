@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"time"
+	"encoding/json"
+	"encoding/base64"
 
 	faasflow "github.com/faasflow/sdk"
 	"github.com/buraksezer/olric/client"
@@ -72,8 +74,13 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 		log.Print("created dmap testin inside Set")
 		olricstore.dataMap = dm
 	}
+	var sec map[string]interface{}
+	json.Unmarshal(value, &sec)
 
-	err := olricstore.dataMap.Put(key, value)
+	dkey := fmt.Sprintf("%v", sec["key"].(interface{}))
+	dvalue := fmt.Sprintf("%v", sec["value"].(interface{}))
+	stringValue, _ := base64.StdEncoding.DecodeString(dvalue)
+	err := olricstore.dataMap.Put(dkey, stringValue)
 	log.Print("I am done putting")
 	if err != nil {
 		log.Print("oops error ", err.Error())
