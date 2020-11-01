@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"encoding/base64"
 	"reflect"
+	"io/ioutil"
 
 	faasflow "github.com/faasflow/sdk"
 	"github.com/buraksezer/olric/client"
@@ -101,6 +102,7 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
+		return nil, err
 	}
 	// byteKey := []byte(fmt.Sprintf("%v", data.(interface{})))
 
@@ -113,12 +115,15 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	// }
 	// log.Print(byteKey)
 	// return byteKey, nil
-	ret, error := json.Marshal(data)
-	log.Print(ret)
-	if error != nil {
-		return nil, error
-	}
-	return ret, nil
+	// ret, error := json.Marshal(&data)
+	// reee, _ := ioutil.ReadAll(ret)
+	// log.Print(ret)
+	// log.Print(reee)
+	// if error != nil {
+	// 	return nil, error
+	// }
+	stringa := "{'key': 'blah', 'value': 'blah}"
+	return []byte(stringa), nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
