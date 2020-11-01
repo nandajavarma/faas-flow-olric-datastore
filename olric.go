@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"encoding/gob"
-	"bytes"
 
 	faasflow "github.com/faasflow/sdk"
 	"github.com/buraksezer/olric/client"
@@ -94,14 +92,16 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
 	}
+	byteKey := []byte(fmt.Sprintf("%v", data.(interface{})))
+
 	// b, err := json.Marshal(&data)
-	var buf bytes.Buffer
-	enc := gob.NewEncoder(&buf)
-	error := enc.Encode(data)
-	if error != nil {
-		return nil, error
-	}
-	return buf.Bytes(), nil
+	// var buf bytes.Buffer
+	// enc := gob.NewEncoder(&buf)
+	// error := enc.Encode(data)
+	// if error != nil {
+	// 	return nil, error
+	// }
+	return byteKey, nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
