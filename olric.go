@@ -103,9 +103,9 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 		log.Fatalf("Failed to call Get: %v", err)
 		return nil, err
 	}
-	// byteKey := []byte(fmt.Sprintf("%v", data.(interface{})))
+	byteKey := []byte(fmt.Sprintf("%v", data.(interface{})))
 
-	b, err := json.Marshal(data)
+	// b, err := json.Marshal(data)
 	// var buf bytes.Buffer
 	// enc := gob.NewEncoder(&buf)
 	// error := enc.Encode(data)
@@ -122,7 +122,7 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	// 	return nil, error
 	// }
 	// stringa := "{'key': 'blah', 'value': 'blah}"
-	return b, nil
+	return byteKey, nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
