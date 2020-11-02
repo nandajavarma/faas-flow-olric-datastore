@@ -42,14 +42,7 @@ func Init() (faasflow.DataStore, error) {
 
 func (olricstore *OlricDataStore) Configure(flowName string, requestId string) {
 	keyName := fmt.Sprintf("faasflow-%s-%s", flowName, requestId)
-	log.Print("I am inside the configure datamap name: ", keyName)
 	olricstore.keyName = keyName
-
-	// dm := olricstore.olricClient.NewDMap(olricstore.keyName)
-	// log.Print("Created dmap inside configure with name: ", olricstore.keyName)
-	// olricstore.dataMap = dm
-
-	// log.Print("Created dmap")
 
 }
 
@@ -72,12 +65,7 @@ func (olricstore *OlricDataStore) Set(key string, value []byte) error {
 	var sec map[string]interface{}
 	json.Unmarshal(value, &sec)
 
-	// dkey := fmt.Sprintf("%v", sec["key"].(interface{}))
-	// dvalue := fmt.Sprintf("%v", sec["value"].(interface{}))
-	// stringValue, _ := base64.StdEncoding.DecodeString(dvalue)
-	// //
 	err := olricstore.dataMap.Put(key, sec)
-	log.Print("Inserted kv pair to olric store: ", key, value)
 	if err != nil {
 		log.Print("oops error ", err.Error())
 	}
@@ -90,32 +78,15 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 		return nil, fmt.Errorf("olric data map not defined")
 	}
 	data, err := olricstore.dataMap.Get(key)
-	log.Print("Found data in the kv store for key: ", key, data)
 
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
 		return nil, err
 	}
 	byteValue, error := json.Marshal(data)
-	log.Print("Marshalled data is ", byteValue)
-
-	// b, err := json.Marshal(data)
-	// var buf bytes.Buffer
-	// enc := gob.NewEncoder(&buf)
-	// error := enc.Encode(data)
-	// if error != nil {
-	// 	return nil, error
-	// }
-	// log.Print(byteKey)
-	// return byteKey, nil
-	// ret, error := json.Marshal(&data)
-	// reee, _ := ioutil.ReadAll(ret)
-	// log.Print(ret)
-	// log.Print(reee)
 	if error != nil {
 		return nil, error
 	}
-	// stringa := "{'key': 'blah', 'value': 'blah}"
 	return byteValue, nil
 }
 
