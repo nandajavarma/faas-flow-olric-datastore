@@ -67,26 +67,22 @@ func (olricstore *OlricDataStore) Init() error {
 }
 
 func (olricstore *OlricDataStore) Set(key string, value []byte) error {
-	log.Print("I am inside the set keyname: ", key)
-	log.Print("I am inside the set valuename: ", value)
 	if olricstore.dataMap == nil {
-		log.Print("there is no dataMap, creating...")
 		dm  := olricstore.olricClient.NewDMap(olricstore.keyName)
-		log.Print("created dmap testin inside Set")
 		olricstore.dataMap = dm
 	}
 	var sec map[string]interface{}
 	json.Unmarshal(value, &sec)
 
-	dkey := fmt.Sprintf("%v", sec["key"].(interface{}))
-	dvalue := fmt.Sprintf("%v", sec["value"].(interface{}))
-	stringValue, _ := base64.StdEncoding.DecodeString(dvalue)
-	err := olricstore.dataMap.Put(dkey, fmt.Sprintf("{key: %s, value: %s}", dkey, stringValue))
-	log.Print("I am done putting")
+	// dkey := fmt.Sprintf("%v", sec["key"].(interface{}))
+	// dvalue := fmt.Sprintf("%v", sec["value"].(interface{}))
+	// stringValue, _ := base64.StdEncoding.DecodeString(dvalue)
+	// //
+	err := olricstore.dataMap.Put(key, sec)
+	log.Print("Inserted kv pair to olric store: ", key, value)
 	if err != nil {
 		log.Print("oops error ", err.Error())
 	}
-	log.Print("I am putting key value in : %s", value)
 	return nil
 
 }
@@ -96,14 +92,14 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 		return nil, fmt.Errorf("olric data map not defined")
 	}
 	data, err := olricstore.dataMap.Get(key)
-	log.Print("GOT   I am getting key value in : %s", data)
-	log.Print(reflect.TypeOf(data))
+	log.Print("Found data in the kv store for key: ", key, data)
 
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
 		return nil, err
 	}
-	byteKey := []byte(fmt.Sprintf("%v", data.(interface{})))
+	byteValue, error := json.Marshal(data)
+	log.Print("Marshalled data is ", byteValue)
 
 	// b, err := json.Marshal(data)
 	// var buf bytes.Buffer
@@ -118,11 +114,11 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 	// reee, _ := ioutil.ReadAll(ret)
 	// log.Print(ret)
 	// log.Print(reee)
-	// if error != nil {
-	// 	return nil, error
-	// }
+	if error != nil {
+		return nil, error
+	}
 	// stringa := "{'key': 'blah', 'value': 'blah}"
-	return byteKey, nil
+	return byteValue, nil
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
