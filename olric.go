@@ -91,19 +91,19 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 }
 
 func (olricstore *OlricDataStore) Del(key string) error {
-	err := olricstore.dataMap.Delete(key)
-	if err != nil {
-		fmt.Println("error during deleting key:", err)
-	}
+	// err := olricstore.dataMap.Delete(key)
+	// if err != nil {
+	// 	fmt.Println("error during deleting key:", err)
+	// }
 
 	return nil
 }
 
 func (olricstore *OlricDataStore) Cleanup() error {
-	err := olricstore.dataMap.Destroy()
-	if err != nil {
-		fmt.Println("error during cleanup:", err)
-	}
+	// err := olricstore.dataMap.Destroy()
+	// if err != nil {
+	// 	fmt.println("error during cleanup:", err)
+	// }
 
 	return nil
 
