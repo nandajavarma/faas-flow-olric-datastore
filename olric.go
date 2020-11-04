@@ -81,7 +81,7 @@ func (olricstore *OlricDataStore) Get(key string) ([]byte, error) {
 
 	if err != nil {
 		log.Fatalf("Failed to call Get: %v", err)
-		return nil, err
+		return nil, nil
 	}
 	byteValue, error := json.Marshal(data)
 	if error != nil {
