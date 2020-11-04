@@ -3,7 +3,6 @@ package OlricDataStore
 import (
 	"fmt"
 	"log"
-	"os"
 	"time"
 	"encoding/json"
 
@@ -23,9 +22,8 @@ type OlricDataStore struct {
 func Init() (faasflow.DataStore, error) {
 	log.Print("I am inside the Init")
 	olricstore := &OlricDataStore{}
-	endpoint := os.Getenv("orlic_url")
 	var clientConfig = &client.Config{
-		Addrs:       []string{endpoint},
+		Addrs:       []string{"3.138.189.178:3320"},
 		Serializer:  serializer.NewMsgpackSerializer(),
 		DialTimeout: 10000 * time.Second,
 		KeepAlive:   10000 * time.Second,
