@@ -23,7 +23,7 @@ func Init() (faasflow.DataStore, error) {
 	log.Print("I am inside the Init")
 	olricstore := &OlricDataStore{}
 	var clientConfig = &client.Config{
-		Addrs:       []string{"172.31.44.243:3320"},
+		Addrs:       []string{"3.138.189.178:3320"},
 		Serializer:  serializer.NewMsgpackSerializer(),
 		DialTimeout: 10000 * time.Second,
 		KeepAlive:   10000 * time.Second,
